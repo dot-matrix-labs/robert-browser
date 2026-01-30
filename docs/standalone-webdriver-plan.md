@@ -1,33 +1,22 @@
 # Standalone Webdriver Extraction Plan
 
- This plan details the steps to decouple `robert-webdriver` from `robert-app` and establish it as a standalone service.
+> **Status:** ✅ COMPLETED
+>
+> This plan has been fully implemented. The `robert-webdriver` crate is now maintained in a separate repository:
+> [`dot-matrix-labs/robert-webdriver`](https://github.com/dot-matrix-labs/robert-webdriver)
 
-## User Review Required
-> [!IMPORTANT]
-> This is a breaking change for the build process. `robert-app` will no longer include webdriver capabilities out of the box. You must run `robert-webdriver` separately.
+## Summary
 
-## Proposed Changes
+The `robert-webdriver` crate has been extracted from this repository and is now maintained independently. This allows for:
+- Separate release cycles for the CDP library
+- Focused development on browser automation
+- Clear separation of concerns
 
-### 1. Refactor `robert-webdriver`
-*   [ ] **Convert to Binary**: Add `src/main.rs` to `crates/robert-webdriver`.
-*   [ ] **Add HTTP Server**: Implement a `warp` or `axum` server in `robert-webdriver`.
-    *   `GET /health`: Returns 200 OK if ready.
-    *   `POST /inference`: Accepts inference requests and triggers the existing webdriver logic.
-*   [ ] **CLI Args**: Add `clap` for port configuration (default to e.g., 3030 or similar).
+## Related Documentation
 
-### 2. Update `robert-app`
-*   [ ] **Remove Dependency**: Remove `robert-webdriver` from `crates/robert-app/src-tauri/Cargo.toml`.
-*   [ ] **Remove Direct Calls**: Delete/Refactor any Rust code in `robert-app` that directly calls `robert-webdriver`.
-*   [ ] **Implement Discovery**:
-    *   On startup/periodically, ping `http://localhost:<PORT>/health`.
-*   [ ] **Update UI State**:
-    *   Store connection status in Tauri state.
-    *   Frontend queries this state to toggle "Debugging/Developer" sections for webdriver.
-*   [ ] **Implement Client**:
-    *   When user requests webdriving (chat interface), send JSON payload to `http://localhost:<PORT>/inference`.
+- **robert-webdriver repository**: [`dot-matrix-labs/robert-webdriver`](https://github.com/dot-matrix-labs/robert-webdriver)
+- ADR: `adr-standalone-webdriver.md`
 
-### 3. Cleanup
-*   [ ] **Workspace**: Ensure `robert-webdriver` is built as a binary in the root `Cargo.toml` default members (it already is, but ensure `robert-app` doesn't dep on it).
 
 ## Verification Plan
 

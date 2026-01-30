@@ -1,7 +1,10 @@
 # ADR: Standalone Webdriver Process
 
 ## Status
-Proposed
+**Accepted** - Implemented
+
+> This ADR has been implemented. The `robert-webdriver` crate is now maintained in a separate repository:
+> [`dot-matrix-labs/robert-webdriver`](https://github.com/dot-matrix-labs/robert-webdriver)
 
 ## Context
 Currently, the `robert-webdriver` functionality is integrated directly into the `robert-app` (Tauri) process or linked as a library. This tightly couples the desktop application with the webdriver logic. 
